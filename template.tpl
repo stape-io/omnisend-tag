@@ -1249,8 +1249,6 @@ const setCookie = require('setCookie');
 /*==============================================================================
 ==============================================================================*/
 
-logToConsole('data: ', data); // REMOVE
-
 const eventData = getAllEventData();
 
 if (shouldExitEarly(data, eventData)) return;
@@ -1589,12 +1587,14 @@ function trackEvent(data, eventData, mappedData) {
           const item = {};
           if (i.item_id) item.productID = makeString(i.item_id);
           if (i.item_name) item.productTitle = makeString(i.item_name);
-          if (isValidValue(i.price)) item.productPrice = makeNumber(i.price);
           if (isValidValue(i.discount)) item.productDiscount = makeNumber(i.discount);
           if (isValidValue(i.quantity)) item.productQuantity = makeInteger(i.quantity);
-          valueFromItems += item.productQuantity
-            ? item.productQuantity * item.productPrice
-            : item.productPrice;
+          if (isValidValue(i.price)) {
+            item.productPrice = makeNumber(i.price);
+            if (isValidValue(item.productPrice)) {
+              valueFromItems += (item.productQuantity || 1) * item.productPrice;
+            }
+          }
           mappedData.properties[itemsArrayName].push(item);
         });
       }
@@ -1610,7 +1610,7 @@ function trackEvent(data, eventData, mappedData) {
     if (isValidValue(eventData.value))
       mappedData.properties[valuePropertyName] = makeNumber(eventData.value);
     else if (isValidValue(valueFromItems))
-      mappedData.properties[valuePropertyName] = valueFromItems;
+      mappedData.properties[valuePropertyName] = roundValue(valueFromItems);
 
     if (isValidValue(eventData.tax)) mappedData.properties.totalTax = makeNumber(eventData.tax);
     if (isValidValue(eventData.shipping)) {
@@ -1823,6 +1823,11 @@ function getCookieDomain(defaultCookieDomain) {
     ? computeEffectiveTldPlusOne(getEventData('page_location') || getRequestHeader('referer')) ||
         'auto'
     : defaultCookieDomain;
+}
+
+function roundValue(value) {
+  if (!value) return value;
+  return Math.round(makeNumber(value) * 100) / 100;
 }
 
 function enc(data) {
