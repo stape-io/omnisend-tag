@@ -1,5 +1,5 @@
 homepage: 'https://stape.io/'
-documentation: 'https://github.com/stape-io/axon-tag'
+documentation: 'https://github.com/stape-io/omnisend-tag'
 versions:
   - sha: a22908935cea835c9dfc0a1502db7bf82ec2678f
     changeNotes: Fixed auto-mapped 'value' from Event Data items array.
