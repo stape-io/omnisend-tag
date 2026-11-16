@@ -212,7 +212,7 @@ ___TEMPLATE_PARAMETERS___
           {
             "type": "LABEL",
             "name": "contactIdentifiersCreateContactGroupLabel",
-            "displayName": "Each contact must have a \u003cb\u003eunique identifier\u003c/b\u003e. To prevent duplicates, Omnisend applies the following logic when creating a new contact:\n\u003cul\u003e\n\u003cli\u003ePartial Duplicates: if you provide multiple identifiers and some are already in use, the system will ignore the existing ones and only save the unique identifiers to the new contact.\u003c/li\u003e\n\u003cli\u003eTotal Duplicates: if all identifiers provided are already assigned to other contacts, the new contact will not be created.\u003c/li\u003e\n\u003cli\u003eSingle Identifier: if you provide only one identifier and it already exists, the contact creation will fail.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\nEither Email Address or Phone Number is required.\u003cbr/\u003e\u003cbr/\u003e",
+            "displayName": "Each contact must have a \u003cb\u003eunique identifier\u003c/b\u003e. To prevent duplicates, Omnisend applies the following logic when creating a new contact:\n\u003cul\u003e\n\u003cli\u003eExisting Email: if a contact with the provided Email Address already exists, that contact is updated instead of a new one being created.\u003c/li\u003e\n\u003cli\u003eOtherwise, a new contact is created. Identifiers already assigned to another contact are not added to the new contact.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\nEither Email Address or Phone Number is required.\u003cbr/\u003e\u003cbr/\u003e",
             "enablingConditions": [
               {
                 "paramName": "actionType",
@@ -446,7 +446,7 @@ ___TEMPLATE_PARAMETERS___
                         "valueHint": "2025-12-30T00:00:00Z"
                       }
                     ],
-                    "help": "\u003cul\u003e\n\u003cli\u003eStatus: represents the subscription status for the channel.\u003c/li\u003e\n\u003cli\u003eStatus Date: specifies the date and time when the user granted consent for email/SMS communication. The timestamp follows the ISO 8601 format for date and time. If not set, the currrent timestamp will be used.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\n\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts#emailsms-consent-properties\"\u003eLearn more\u003c/a\u003e.",
+                    "help": "\u003cul\u003e\n\u003cli\u003eStatus: represents the subscription status for the channel.\u003c/li\u003e\n\u003cli\u003eStatus Date: specifies the date and time when the user granted consent for email/SMS communication. The timestamp follows the ISO 8601 format for date and time. If not set, the current timestamp will be used.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\nThe Status Date is sent as \u003ci\u003estatusChangedAt\u003c/i\u003e (Create/Update Contact) or as the opt-in/opt-out \u003ci\u003ecreatedAt\u003c/i\u003e (Track Event).\n\u003cbr/\u003e\u003cbr/\u003e\n\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts#emailsms-consent-properties\"\u003eLearn more\u003c/a\u003e.",
                     "valueValidators": [
                       {
                         "type": "TABLE_ROW_COUNT",
@@ -595,7 +595,7 @@ ___TEMPLATE_PARAMETERS___
                         "valueHint": "2025-12-30T00:00:00Z"
                       }
                     ],
-                    "help": "\u003cul\u003e\n\u003cli\u003eStatus: represents the subscription status for the channel.\u003c/li\u003e\n\u003cli\u003eStatus Date: specifies the date and time when the user granted consent for email/SMS communication. The timestamp follows the ISO 8601 format for date and time. If not set, the currrent timestamp will be used.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\n\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts#emailsms-consent-properties\"\u003eLearn more\u003c/a\u003e.",
+                    "help": "\u003cul\u003e\n\u003cli\u003eStatus: represents the subscription status for the channel.\u003c/li\u003e\n\u003cli\u003eStatus Date: specifies the date and time when the user granted consent for email/SMS communication. The timestamp follows the ISO 8601 format for date and time. If not set, the current timestamp will be used.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\nThe Status Date is sent as \u003ci\u003estatusChangedAt\u003c/i\u003e (Create/Update Contact) or as the opt-in/opt-out \u003ci\u003ecreatedAt\u003c/i\u003e (Track Event).\n\u003cbr/\u003e\u003cbr/\u003e\n\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts#emailsms-consent-properties\"\u003eLearn more\u003c/a\u003e.",
                     "valueValidators": [
                       {
                         "type": "TABLE_ROW_COUNT",
@@ -766,7 +766,7 @@ ___TEMPLATE_PARAMETERS___
                   },
                   {
                     "value": "sendWelcomeEmail",
-                    "displayValue": "Send Welcome Email (true/false)"
+                    "displayValue": "Send Welcome Message (true/false)"
                   }
                 ]
               },
@@ -797,7 +797,7 @@ ___TEMPLATE_PARAMETERS___
                 ]
               }
             ],
-            "help": "String tag values that can be used in user segmentation or filtering.\n\u003cbr/\u003e\u003cbr/\u003e\nSpecify a comma separated values on a single line. Or add multiple single tags using the \"Add Tag\" option.",
+            "help": "String tag values that can be used in user segmentation or filtering.\n\u003cbr/\u003e\u003cbr/\u003e\nSpecify a comma separated values on a single line. Or add multiple single tags using the \"Add Tag\" option.\n\u003cbr/\u003e\u003cbr/\u003e\n⚠️ On \u003cb\u003eCreate Contact\u003c/b\u003e and \u003cb\u003eUpdate Contact\u003c/b\u003e, the tags \u003cb\u003ereplace\u003c/b\u003e all existing tags of the contact. Include every tag the contact should keep. On \u003cb\u003eTrack Event\u003c/b\u003e, the tags are appended to the existing ones.",
             "newRowButtonText": "Add Tag"
           }
         ]
@@ -1151,6 +1151,9 @@ const setCookie = require('setCookie');
 /*==============================================================================
 ==============================================================================*/
 
+const API_BASE_URL = 'https://api.omnisend.com/api';
+const API_VERSION = '2026-03-15';
+
 const eventData = getAllEventData();
 
 if (shouldExitEarly(data, eventData)) return;
@@ -1220,17 +1223,10 @@ function addContactProperties(data, mappedData) {
   }
 
   if (data.contactPropertiesList) {
-    const castValueByKey = (key, value) => {
-      switch (key) {
-        case 'sendWelcomeEmail':
-          return [1, '1', true, 'true'].indexOf(value) !== -1 ? true : false;
-        default:
-          return value;
-      }
-    };
     data.contactPropertiesList.forEach((property) => {
-      const value = castValueByKey(property.name, property.value);
-      destination[property.name] = value;
+      // 'sendWelcomeEmail' is not a contact property anymore. It's mapped to 'identifiers[].sendWelcomeMessage'.
+      if (property.name === 'sendWelcomeEmail') return;
+      destination[property.name] = property.value;
     });
   }
 
@@ -1246,6 +1242,18 @@ function addContactProperties(data, mappedData) {
   }
 
   return mappedData;
+}
+
+function getSendWelcomeMessage(data) {
+  if (!data.contactPropertiesList) return;
+
+  let sendWelcomeMessage;
+  data.contactPropertiesList.forEach((property) => {
+    if (property.name !== 'sendWelcomeEmail') return;
+    sendWelcomeMessage = [1, '1', true, 'true'].indexOf(property.value) !== -1;
+  });
+
+  return sendWelcomeMessage;
 }
 
 function addContactIdentifiers(data, eventData, mappedData) {
@@ -1341,7 +1349,7 @@ function addContactIdentifiers(data, eventData, mappedData) {
       const channel = {};
       channel[channelName] = {
         status: subscriptionStatus.status ? subscriptionStatus.status : 'nonSubscribed',
-        statusDate: subscriptionStatus.statusDate || undefined // Not required
+        statusChangedAt: subscriptionStatus.statusDate || undefined // Not required
       };
       return channel;
     };
@@ -1356,6 +1364,7 @@ function addContactIdentifiers(data, eventData, mappedData) {
     };
 
     const identifiers = [];
+    const sendWelcomeMessage = getSendWelcomeMessage(data);
 
     [
       {
@@ -1396,6 +1405,9 @@ function addContactIdentifiers(data, eventData, mappedData) {
       const consent = processConsent(identifier.consent);
       // If the object doesn't have properties, the API considers it as 'Consent Exists' and it uses the current timestamp.
       if (consent) identifierData.consent = consent;
+      if (getType(sendWelcomeMessage) === 'boolean') {
+        identifierData.sendWelcomeMessage = sendWelcomeMessage;
+      }
       identifiers.push(identifierData);
     });
 
@@ -1620,14 +1632,15 @@ function generateRequestOptions(data) {
   return {
     headers: {
       'Content-Type': 'application/json',
-      'X-API-KEY': data.apiKey
+      Authorization: 'Omnisend-API-Key ' + data.apiKey,
+      'Omnisend-Version': API_VERSION
     },
     method: actionTypeToRequestMethod[data.actionType]
   };
 }
 
 function sendRequest(data, requestData) {
-  const requestUrl = 'https://api.omnisend.com/v5' + requestData.path;
+  const requestUrl = API_BASE_URL + requestData.path;
   const requestOptions = generateRequestOptions(data);
   const requestBodies = requestData.bodies;
 
@@ -1640,7 +1653,8 @@ function sendRequest(data, requestData) {
         if (response.statusCode >= 200 && response.statusCode < 300) {
           if (data.actionType === 'createContact') {
             const parsedBody = JSON.parse(response.body || '{}');
-            if (parsedBody.contactID) storeContactIdCookie(data, parsedBody.contactID);
+            const contactId = parsedBody.id || parsedBody.contactID;
+            if (contactId) storeContactIdCookie(data, contactId);
           }
           return true;
         }
@@ -2022,13 +2036,14 @@ setup: "const Promise = require('Promise');\nconst JSON = require('JSON');\ncons
   \  for (let i = 1; i < arguments.length; i++) {\n    for (let key in arguments[i])\
   \ {\n      target[key] = arguments[i][key];\n    }\n  }\n  return target;\n}\n\n\
   const mockData = {\n  apiKey: 'expectedApiKey'\n};\n\nconst EXPECTED_API_VERSION\
-  \ = '5';\nconst EXPECTED_REQUEST_BASE_URL = 'https://api.omnisend.com/v' + EXPECTED_API_VERSION;\n\
+  \ = '2026-03-15';\nconst EXPECTED_REQUEST_BASE_URL = 'https://api.omnisend.com/api';\n\
   const GET_EXPECTED_REQUEST_URL_BY_TYPE = (type) => {\n  switch (type) {\n    case\
   \ 'trackEvent':\n      return EXPECTED_REQUEST_BASE_URL + '/events';\n    case 'updateContact':\n\
   \    case 'createContact':\n      return EXPECTED_REQUEST_BASE_URL + '/contacts';\n\
   \  }\n};\nconst GET_EXPECTED_REQUEST_OPTIONS_BY_TYPE = (type) => {\n  return {\n\
   \    method: type === 'updateContact' ? 'PATCH' : 'POST',\n    headers: {\n    \
-  \  'X-API-KEY': mockData.apiKey,\n      'Content-Type': 'application/json'\n   \
+  \  Authorization: 'Omnisend-API-Key ' + mockData.apiKey,\n      'Omnisend-Version': EXPECTED_API_VERSION,\n\
+  \      'Content-Type': 'application/json'\n   \
   \ }\n  };\n};\n\n\nconst cleanup = () => {\n  mock('getAllEventData', {});\n  mock('getCookieValues',\
   \ []);\n};\n\nconst setMockDataByType = (type, objToBeMerged) => {\n  const commonParameters\
   \ = {\n    contactEmail: 'asdasd@example.com',\n    addEmailSubscriptionStatus:\
@@ -2095,6 +2110,11 @@ setup: "const Promise = require('Promise');\nconst JSON = require('JSON');\ncons
 
 
 ___NOTES___
+
+2026-11-12 - Change Notes:
+  - Migrate to the new Omnisend API (version 2026-03-15), as API v5 will be discontinued on 2027-06-30
+  - Contact ID cookie, Subscription Status Date and Send Welcome Message keep working with the new API; existing configurations need no changes
+  - Update field descriptions: Create Contact now updates contacts that already exist with the same email, and Contact Tags replace the contact's existing tags
 
 2026-05-25 Change Notes:
  - Logging removal.

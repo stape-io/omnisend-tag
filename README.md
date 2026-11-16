@@ -1,10 +1,10 @@
 # Omnisend Tag for GTM Server-Side
 
-Use this Tag to send Contact and Event data to Omnisend via the Omnisend API.
+Use this Tag to send Contact and Event data to Omnisend via the Omnisend API (version `2026-03-15`).
 
 ## Warning: API Rate Limiting
 
-The Omnisend API limits requests to **400 per minute**. High-volume events (e.g., `viewed product`, `added product to cart`, `started checkout`) are better tracked using the client-side Javascript snippet to avoid hitting this limit.
+The Omnisend API limits requests to **400 per minute** per brand. High-volume events (e.g., `viewed product`, `added product to cart`, `started checkout`) are better tracked using the client-side Javascript snippet to avoid hitting this limit.
 
 ## Action Types
 
@@ -17,13 +17,17 @@ Sends an event to Omnisend, creating or updating the contact as needed.
 
 ### Create Contact
 Creates a new contact using a unique identifier (Email or Phone).
-*   **Duplicates**: System handles partial duplicates (merges unique IDs) and rejects total duplicates or existing single identifiers.
+*   **Duplicates**: If a contact with the provided Email already exists, that contact is updated instead of a new one being created.
 *   **Options**: Can store the created Contact ID in a cookie for future use.
 
 ### Update Contact
 Updates an existing contact found via **Omnisend Contact ID** or **Email**.
 *   **Search Key**: Choose ID to allow email updates, or Email (ID remains unchanged).
 *   **Properties**: Only provide the specific fields you want to update.
+
+> ⚠️ **Contact Tags**: On **Create Contact** and **Update Contact**, the tags sent **replace** all existing tags of the contact. Include every tag the contact should keep. On **Track Event**, tags are appended to the existing ones.
+
+> **Send Welcome Message**: When set, it's applied to each identifier (Email/Phone) sent on Create/Update Contact. If not set, Omnisend sends a welcome message when a channel is set to `subscribed` and the welcome workflow is enabled.
 
 ## Configuration
 
@@ -33,8 +37,9 @@ Updates an existing contact found via **Omnisend Contact ID** or **Email**.
 ## Useful Resources
 
 - [Omnisend API Rate Limiting](https://api-docs.omnisend.com/reference/rate-limit-timeouts-errors)
-- [Omnisend API Events](https://api.omnisend.com/reference/events)
-- [Omnisend API Contacts](https://api.omnisend.com/reference/contacts)
+- [Omnisend API Events](https://api-docs.omnisend.com/reference/events)
+- [Omnisend API Contacts](https://api-docs.omnisend.com/reference/contacts)
+- [Migrate from v5 to v2026-03-15](https://api-docs.omnisend.com/docs/migrate-from-v5-to-v2026-03-15)
 
 ## Open Source
 
