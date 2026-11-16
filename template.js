@@ -20,6 +20,9 @@ const setCookie = require('setCookie');
 /*==============================================================================
 ==============================================================================*/
 
+const API_BASE_URL = 'https://api.omnisend.com/api';
+const API_VERSION = '2026-03-15';
+
 const eventData = getAllEventData();
 
 if (shouldExitEarly(data, eventData)) return;
@@ -89,17 +92,10 @@ function addContactProperties(data, mappedData) {
   }
 
   if (data.contactPropertiesList) {
-    const castValueByKey = (key, value) => {
-      switch (key) {
-        case 'sendWelcomeEmail':
-          return [1, '1', true, 'true'].indexOf(value) !== -1 ? true : false;
-        default:
-          return value;
-      }
-    };
     data.contactPropertiesList.forEach((property) => {
-      const value = castValueByKey(property.name, property.value);
-      destination[property.name] = value;
+      // 'sendWelcomeEmail' is not a contact property anymore. It's mapped to 'identifiers[].sendWelcomeMessage'.
+      if (property.name === 'sendWelcomeEmail') return;
+      destination[property.name] = property.value;
     });
   }
 
@@ -115,6 +111,18 @@ function addContactProperties(data, mappedData) {
   }
 
   return mappedData;
+}
+
+function getSendWelcomeMessage(data) {
+  if (!data.contactPropertiesList) return;
+
+  let sendWelcomeMessage;
+  data.contactPropertiesList.forEach((property) => {
+    if (property.name !== 'sendWelcomeEmail') return;
+    sendWelcomeMessage = [1, '1', true, 'true'].indexOf(property.value) !== -1;
+  });
+
+  return sendWelcomeMessage;
 }
 
 function addContactIdentifiers(data, eventData, mappedData) {
@@ -210,7 +218,7 @@ function addContactIdentifiers(data, eventData, mappedData) {
       const channel = {};
       channel[channelName] = {
         status: subscriptionStatus.status ? subscriptionStatus.status : 'nonSubscribed',
-        statusDate: subscriptionStatus.statusDate || undefined // Not required
+        statusChangedAt: subscriptionStatus.statusDate || undefined // Not required
       };
       return channel;
     };
@@ -225,6 +233,7 @@ function addContactIdentifiers(data, eventData, mappedData) {
     };
 
     const identifiers = [];
+    const sendWelcomeMessage = getSendWelcomeMessage(data);
 
     [
       {
@@ -265,6 +274,9 @@ function addContactIdentifiers(data, eventData, mappedData) {
       const consent = processConsent(identifier.consent);
       // If the object doesn't have properties, the API considers it as 'Consent Exists' and it uses the current timestamp.
       if (consent) identifierData.consent = consent;
+      if (getType(sendWelcomeMessage) === 'boolean') {
+        identifierData.sendWelcomeMessage = sendWelcomeMessage;
+      }
       identifiers.push(identifierData);
     });
 
@@ -489,14 +501,15 @@ function generateRequestOptions(data) {
   return {
     headers: {
       'Content-Type': 'application/json',
-      'X-API-KEY': data.apiKey
+      Authorization: 'Omnisend-API-Key ' + data.apiKey,
+      'Omnisend-Version': API_VERSION
     },
     method: actionTypeToRequestMethod[data.actionType]
   };
 }
 
 function sendRequest(data, requestData) {
-  const requestUrl = 'https://api.omnisend.com/v5' + requestData.path;
+  const requestUrl = API_BASE_URL + requestData.path;
   const requestOptions = generateRequestOptions(data);
   const requestBodies = requestData.bodies;
 
@@ -509,7 +522,8 @@ function sendRequest(data, requestData) {
         if (response.statusCode >= 200 && response.statusCode < 300) {
           if (data.actionType === 'createContact') {
             const parsedBody = JSON.parse(response.body || '{}');
-            if (parsedBody.contactID) storeContactIdCookie(data, parsedBody.contactID);
+            const contactId = parsedBody.id || parsedBody.contactID;
+            if (contactId) storeContactIdCookie(data, contactId);
           }
           return true;
         }
