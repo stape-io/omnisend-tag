@@ -1,6 +1,8 @@
 homepage: 'https://stape.io/'
 documentation: 'https://github.com/stape-io/omnisend-tag'
 versions:
+  - sha: 9c264245d25d83dd2b1bcb00cf5567c32b9ee87f
+    changeNotes: Kept API v5 tags and welcome message behavior, fixed midnight timestamps and added unit tests.
   - sha: b5bd834c805a1eabe5177449c58b1f6bae59266c
     changeNotes: Version bump to v2026-03-15 and minor improvements.
   - sha: 5e21a548089fc8cf267f710421ad496b8a357774
