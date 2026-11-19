@@ -114,9 +114,10 @@ function addContactProperties(data, mappedData) {
 }
 
 function getSendWelcomeMessage(data) {
-  if (!data.contactPropertiesList) return;
+  // The API defaults it to 'true'. It's 'false' unless explicitly enabled, to keep the API v5 behavior.
+  let sendWelcomeMessage = false;
+  if (!data.contactPropertiesList) return sendWelcomeMessage;
 
-  let sendWelcomeMessage;
   data.contactPropertiesList.forEach((property) => {
     if (property.name !== 'sendWelcomeEmail') return;
     sendWelcomeMessage = [1, '1', true, 'true'].indexOf(property.value) !== -1;
@@ -274,9 +275,7 @@ function addContactIdentifiers(data, eventData, mappedData) {
       const consent = processConsent(identifier.consent);
       // If the object doesn't have properties, the API considers it as 'Consent Exists' and it uses the current timestamp.
       if (consent) identifierData.consent = consent;
-      if (getType(sendWelcomeMessage) === 'boolean') {
-        identifierData.sendWelcomeMessage = sendWelcomeMessage;
-      }
+      identifierData.sendWelcomeMessage = sendWelcomeMessage;
       identifiers.push(identifierData);
     });
 
@@ -467,16 +466,14 @@ function storeContactIdCookie(data, contactId) {
 function createContact(data, mappedData) {
   Object.delete(mappedData, 'contactID'); // If the user forces it, remove it.
 
-  sendRequest(data, {
-    path: '/contacts',
-    bodies: [mappedData]
-  });
+  sendContactRequest(data, '/contacts', mappedData);
 }
 
 function updateContact(data, eventData, mappedData) {
   let path = '/contacts';
+  let contactId;
   if (data.updateContactSearchKey === 'contactId') {
-    const contactId = getOmnisendContactId(data, eventData);
+    contactId = getOmnisendContactId(data, eventData);
     path += '/' + enc(contactId);
   } else {
     const email = data.contactEmail;
@@ -485,13 +482,52 @@ function updateContact(data, eventData, mappedData) {
 
   Object.delete(mappedData, 'contactID'); // If the user forces it, remove it.
 
+  sendContactRequest(data, path, mappedData, contactId);
+}
+
+// On Create/Update Contact, the 'tags' field replaces all the existing tags of the contact.
+// When appending (default), the tags are sent to the Batch add tags endpoint after the contact request.
+function sendContactRequest(data, path, mappedData, fallbackContactId) {
+  let tagsToAdd;
+  if (data.contactTagsMode !== 'replace' && mappedData.tags) {
+    tagsToAdd = mappedData.tags;
+    Object.delete(mappedData, 'tags');
+  }
+
   sendRequest(data, {
     path: path,
-    bodies: [mappedData]
+    bodies: [mappedData],
+    onSuccess: (response) => {
+      const responseBody = safeJsonParse(response.body) || {};
+      const contactId = responseBody.id || responseBody.contactID || fallbackContactId;
+
+      if (data.actionType === 'createContact' && contactId) {
+        storeContactIdCookie(data, contactId);
+      }
+
+      if (tagsToAdd) return addContactTags(data, contactId, tagsToAdd);
+      return true;
+    }
   });
 }
 
-function generateRequestOptions(data) {
+function addContactTags(data, contactId, tags) {
+  const requestBody = { tags: tags };
+  if (contactId) requestBody.contactIDs = [makeString(contactId)];
+  else if (data.contactEmail) requestBody.emails = [data.contactEmail];
+  else if (data.contactPhone) requestBody.phones = [data.contactPhone];
+  else return false;
+
+  return sendHttpRequest(
+    API_BASE_URL + '/contacts/tags',
+    generateRequestOptions(data, 'POST'),
+    JSON.stringify(requestBody)
+  )
+    .then((response) => isSuccessStatusCode(response.statusCode))
+    .catch((error) => false);
+}
+
+function generateRequestOptions(data, method) {
   const actionTypeToRequestMethod = {
     trackEvent: 'POST',
     createContact: 'POST',
@@ -504,7 +540,7 @@ function generateRequestOptions(data) {
       Authorization: 'Omnisend-API-Key ' + data.apiKey,
       'Omnisend-Version': API_VERSION
     },
-    method: actionTypeToRequestMethod[data.actionType]
+    method: method || actionTypeToRequestMethod[data.actionType]
   };
 }
 
@@ -513,21 +549,11 @@ function sendRequest(data, requestData) {
   const requestOptions = generateRequestOptions(data);
   const requestBodies = requestData.bodies;
 
-  const eventName =
-    data.actionType + (data.actionType === 'trackEvent' ? '|' + requestBodies[0].eventName : '');
-
   const requests = requestBodies.map((requestBody) => {
     return sendHttpRequest(requestUrl, requestOptions, JSON.stringify(requestBody))
       .then((response) => {
-        if (response.statusCode >= 200 && response.statusCode < 300) {
-          if (data.actionType === 'createContact') {
-            const parsedBody = JSON.parse(response.body || '{}');
-            const contactId = parsedBody.id || parsedBody.contactID;
-            if (contactId) storeContactIdCookie(data, contactId);
-          }
-          return true;
-        }
-        return false;
+        if (!isSuccessStatusCode(response.statusCode)) return false;
+        return requestData.onSuccess ? requestData.onSuccess(response) : true;
       })
       .catch((error) => {
         return false;
@@ -565,9 +591,24 @@ function shouldExitEarly(data, eventData) {
   }
 }
 
+function isSuccessStatusCode(statusCode) {
+  return statusCode >= 200 && statusCode < 300;
+}
+
+function safeJsonParse(value) {
+  if (getType(value) !== 'string') return;
+  const trimmed = value.trim();
+  const first = trimmed.charAt(0);
+  const last = trimmed.charAt(trimmed.length - 1);
+  if ((first === '{' && last === '}') || (first === '[' && last === ']')) {
+    return JSON.parse(trimmed);
+  }
+}
+
 function isValidValue(value) {
   const valueType = getType(value);
-  return valueType !== 'null' && valueType !== 'undefined' && value !== '' && value === value;
+  if (valueType === 'null' || valueType === 'undefined' || value !== value) return false;
+  return value !== '' && value !== 'undefined' && value !== 'null';
 }
 
 function getCookieDomain(defaultCookieDomain) {
@@ -599,71 +640,51 @@ function isConsentGivenOrNotRequired(data, eventData) {
 }
 
 function convertTimestampToISO(timestamp) {
-  const leapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  const nonLeapYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  const secToMs = (s) => s * 1000;
-  const minToMs = (m) => m * secToMs(60);
-  const hoursToMs = (h) => h * minToMs(60);
-  const daysToMs = (d) => d * hoursToMs(24);
-  const padStart = (value, length) => {
+  const msPerDay = 86400000;
+  const isLeapYear = (y) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+  const pad = (value, length) => {
     let result = makeString(value);
-    while (result.length < length) {
-      result = '0' + result;
-    }
+    while (result.length < length) result = '0' + result;
     return result;
   };
 
-  const fourYearsInMs = daysToMs(365 * 4 + 1);
-  let year = 1970 + Math.floor(timestamp / fourYearsInMs) * 4;
-  timestamp = timestamp % fourYearsInMs;
+  let days = Math.floor(timestamp / msPerDay);
+  let msOfDay = timestamp - days * msPerDay;
 
-  while (true) {
-    let isLeapYear = year % 4 === 0;
-    let nextTimestamp = timestamp - daysToMs(isLeapYear ? 366 : 365);
-    if (nextTimestamp < 0) {
-      break;
-    }
-    timestamp = nextTimestamp;
-    year = year + 1;
+  let year = 1970;
+  while (days >= (isLeapYear(year) ? 366 : 365)) {
+    days = days - (isLeapYear(year) ? 366 : 365);
+    year++;
   }
 
-  const daysByMonth = year % 4 === 0 ? leapYear : nonLeapYear;
-
+  const daysInMonth = [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   let month = 0;
-  for (let i = 0; i < daysByMonth.length; i++) {
-    const msInThisMonth = daysToMs(daysByMonth[i]);
-    if (timestamp > msInThisMonth) {
-      timestamp = timestamp - msInThisMonth;
-    } else {
-      month = i + 1;
-      break;
-    }
+  while (days >= daysInMonth[month]) {
+    days = days - daysInMonth[month];
+    month++;
   }
 
-  const date = Math.ceil(timestamp / daysToMs(1));
-  timestamp = timestamp - daysToMs(date - 1);
-  const hours = Math.floor(timestamp / hoursToMs(1));
-  timestamp = timestamp - hoursToMs(hours);
-  const minutes = Math.floor(timestamp / minToMs(1));
-  timestamp = timestamp - minToMs(minutes);
-  const sec = Math.floor(timestamp / secToMs(1));
-  timestamp = timestamp - secToMs(sec);
-  const milliSeconds = timestamp;
+  const hours = Math.floor(msOfDay / 3600000);
+  msOfDay = msOfDay - hours * 3600000;
+  const minutes = Math.floor(msOfDay / 60000);
+  msOfDay = msOfDay - minutes * 60000;
+  const seconds = Math.floor(msOfDay / 1000);
+  const milliseconds = msOfDay - seconds * 1000;
 
   return (
     year +
     '-' +
-    padStart(month, 2) +
+    pad(month + 1, 2) +
     '-' +
-    padStart(date, 2) +
+    pad(days + 1, 2) +
     'T' +
-    padStart(hours, 2) +
+    pad(hours, 2) +
     ':' +
-    padStart(minutes, 2) +
+    pad(minutes, 2) +
     ':' +
-    padStart(sec, 2) +
+    pad(seconds, 2) +
     '.' +
-    padStart(milliSeconds, 3) +
+    pad(milliseconds, 3) +
     'Z'
   );
 }

@@ -17,7 +17,7 @@ Sends an event to Omnisend, creating or updating the contact as needed.
 
 ### Create Contact
 Creates a new contact using a unique identifier (Email or Phone).
-*   **Duplicates**: If a contact with the provided Email already exists, that contact is updated instead of a new one being created.
+*   **Duplicates**: If the Email (or, when it's the only identifier, the Phone) already belongs to a contact, that contact is updated instead of a new one being created. Identifiers already assigned to another contact are not added to the new contact.
 *   **Options**: Can store the created Contact ID in a cookie for future use.
 
 ### Update Contact
@@ -25,9 +25,13 @@ Updates an existing contact found via **Omnisend Contact ID** or **Email**.
 *   **Search Key**: Choose ID to allow email updates, or Email (ID remains unchanged).
 *   **Properties**: Only provide the specific fields you want to update.
 
-> ⚠️ **Contact Tags**: On **Create Contact** and **Update Contact**, the tags sent **replace** all existing tags of the contact. Include every tag the contact should keep. On **Track Event**, tags are appended to the existing ones.
+> **Contact Tags**: On **Create Contact** and **Update Contact**, the **Tags Behavior** option controls how tags are applied:
+> *   **Add to the existing tags** (default): the tags are sent in a second request to the [Batch add tags](https://api-docs.omnisend.com/reference/post_contacts-tags) endpoint, which is limited to **60 requests per minute**.
+> *   **Replace all the existing tags**: the tags are sent in the contact request and replace all existing tags of the contact.
+>
+> On **Track Event**, tags are always added to the existing ones.
 
-> **Send Welcome Message**: When set, it's applied to each identifier (Email/Phone) sent on Create/Update Contact. If not set, Omnisend sends a welcome message when a channel is set to `subscribed` and the welcome workflow is enabled.
+> **Send Welcome Message**: When set, it's applied to each identifier (Email/Phone) sent on Create/Update Contact. If not set, it's sent as `false`, so no welcome message is sent (the Omnisend API would otherwise default it to `true`).
 
 ## Configuration
 
