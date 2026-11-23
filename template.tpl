@@ -212,7 +212,7 @@ ___TEMPLATE_PARAMETERS___
           {
             "type": "LABEL",
             "name": "contactIdentifiersCreateContactGroupLabel",
-            "displayName": "Each contact must have a \u003cb\u003eunique identifier\u003c/b\u003e. To prevent duplicates, Omnisend applies the following logic when creating a new contact:\n\u003cul\u003e\n\u003cli\u003ePartial Duplicates: if you provide multiple identifiers and some are already in use, the system will ignore the existing ones and only save the unique identifiers to the new contact.\u003c/li\u003e\n\u003cli\u003eTotal Duplicates: if all identifiers provided are already assigned to other contacts, the new contact will not be created.\u003c/li\u003e\n\u003cli\u003eSingle Identifier: if you provide only one identifier and it already exists, the contact creation will fail.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\nEither Email Address or Phone Number is required.\u003cbr/\u003e\u003cbr/\u003e",
+            "displayName": "Each contact must have a \u003cb\u003eunique identifier\u003c/b\u003e. To prevent duplicates, Omnisend applies the following logic when creating a new contact:\n\u003cul\u003e\n\u003cli\u003eExisting contact: if the Email Address (or, when it\u0027s the only identifier, the Phone Number) already belongs to a contact, that contact is updated instead of a new one being created.\u003c/li\u003e\n\u003cli\u003eOtherwise, a new contact is created. Identifiers already assigned to another contact are not added to the new contact.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\nEither Email Address or Phone Number is required.\u003cbr/\u003e\u003cbr/\u003e",
             "enablingConditions": [
               {
                 "paramName": "actionType",
@@ -446,7 +446,7 @@ ___TEMPLATE_PARAMETERS___
                         "valueHint": "2025-12-30T00:00:00Z"
                       }
                     ],
-                    "help": "\u003cul\u003e\n\u003cli\u003eStatus: represents the subscription status for the channel.\u003c/li\u003e\n\u003cli\u003eStatus Date: specifies the date and time when the user granted consent for email/SMS communication. The timestamp follows the ISO 8601 format for date and time. If not set, the currrent timestamp will be used.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\n\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts#emailsms-consent-properties\"\u003eLearn more\u003c/a\u003e.",
+                    "help": "\u003cul\u003e\n\u003cli\u003eStatus: represents the subscription status for the channel.\u003c/li\u003e\n\u003cli\u003eStatus Date: specifies the date and time when the user granted consent for email/SMS communication. The timestamp follows the ISO 8601 format for date and time. If not set, the current timestamp will be used.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\nThe Status Date is sent as \u003ci\u003estatusChangedAt\u003c/i\u003e (Create/Update Contact) or as the opt-in/opt-out \u003ci\u003ecreatedAt\u003c/i\u003e (Track Event).\n\u003cbr/\u003e\u003cbr/\u003e\n\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts#emailsms-consent-properties\"\u003eLearn more\u003c/a\u003e.",
                     "valueValidators": [
                       {
                         "type": "TABLE_ROW_COUNT",
@@ -595,7 +595,7 @@ ___TEMPLATE_PARAMETERS___
                         "valueHint": "2025-12-30T00:00:00Z"
                       }
                     ],
-                    "help": "\u003cul\u003e\n\u003cli\u003eStatus: represents the subscription status for the channel.\u003c/li\u003e\n\u003cli\u003eStatus Date: specifies the date and time when the user granted consent for email/SMS communication. The timestamp follows the ISO 8601 format for date and time. If not set, the currrent timestamp will be used.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\n\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts#emailsms-consent-properties\"\u003eLearn more\u003c/a\u003e.",
+                    "help": "\u003cul\u003e\n\u003cli\u003eStatus: represents the subscription status for the channel.\u003c/li\u003e\n\u003cli\u003eStatus Date: specifies the date and time when the user granted consent for email/SMS communication. The timestamp follows the ISO 8601 format for date and time. If not set, the current timestamp will be used.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cbr/\u003e\nThe Status Date is sent as \u003ci\u003estatusChangedAt\u003c/i\u003e (Create/Update Contact) or as the opt-in/opt-out \u003ci\u003ecreatedAt\u003c/i\u003e (Track Event).\n\u003cbr/\u003e\u003cbr/\u003e\n\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts#emailsms-consent-properties\"\u003eLearn more\u003c/a\u003e.",
                     "valueValidators": [
                       {
                         "type": "TABLE_ROW_COUNT",
@@ -702,7 +702,7 @@ ___TEMPLATE_PARAMETERS___
           {
             "type": "LABEL",
             "name": "contactPropertiesGroupLabel",
-            "displayName": "\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts\"\u003eLearn more\u003c/a\u003e about the expect values and types for each parameter.\nIf a property is set to an \u003ci\u003eempty string\u003c/i\u003e or \u003ci\u003enull\u003c/i\u003e, it will be removed from the Contact.\n\u003cbr/\u003e\nWhen updating a contact information, only provide the updated properties."
+            "displayName": "\u003ca href\u003d\"https://api-docs.omnisend.com/reference/contacts\"\u003eLearn more\u003c/a\u003e about the expect values and types for each parameter.\nIf a property is set to an \u003ci\u003eempty string\u003c/i\u003e or \u003ci\u003enull\u003c/i\u003e, it will be removed from the Contact.\n\u003cbr/\u003e\nWhen updating a contact information, only provide the updated properties.\n\u003cbr/\u003e\u003cbr/\u003e\nFor \u003cb\u003eState\u003c/b\u003e, use the ISO 3166-2 subdivision code (e.g. \u003ci\u003eCA\u003c/i\u003e for California)."
           },
           {
             "type": "SIMPLE_TABLE",
@@ -746,7 +746,7 @@ ___TEMPLATE_PARAMETERS___
                   },
                   {
                     "value": "state",
-                    "displayValue": "State"
+                    "displayValue": "State (ISO 3166-2 code, e.g. CA)"
                   },
                   {
                     "value": "postalCode",
@@ -766,7 +766,7 @@ ___TEMPLATE_PARAMETERS___
                   },
                   {
                     "value": "sendWelcomeEmail",
-                    "displayValue": "Send Welcome Email (true/false)"
+                    "displayValue": "Send Welcome Message (true/false)"
                   }
                 ]
               },
@@ -797,8 +797,33 @@ ___TEMPLATE_PARAMETERS___
                 ]
               }
             ],
-            "help": "String tag values that can be used in user segmentation or filtering.\n\u003cbr/\u003e\u003cbr/\u003e\nSpecify a comma separated values on a single line. Or add multiple single tags using the \"Add Tag\" option.",
+            "help": "String tag values that can be used in user segmentation or filtering.\n\u003cbr/\u003e\u003cbr/\u003e\nSpecify a comma separated values on a single line. Or add multiple single tags using the \"Add Tag\" option.\n\u003cbr/\u003e\u003cbr/\u003e\nOn \u003cb\u003eTrack Event\u003c/b\u003e, the tags are always added to the existing tags of the contact.",
             "newRowButtonText": "Add Tag"
+          },
+          {
+            "type": "RADIO",
+            "name": "contactTagsMode",
+            "displayName": "Tags Behavior",
+            "radioItems": [
+              {
+                "value": "append",
+                "displayValue": "Add to the existing tags of the contact"
+              },
+              {
+                "value": "replace",
+                "displayValue": "Replace all the existing tags of the contact"
+              }
+            ],
+            "simpleValueType": true,
+            "defaultValue": "append",
+            "help": "\u003cb\u003eAdd to the existing tags\u003c/b\u003e: the tags are sent in a second request to the \u003ca href\u003d\"https://api-docs.omnisend.com/reference/post_contacts-tags\"\u003eBatch add tags\u003c/a\u003e endpoint, after the contact is created or updated. This endpoint is limited to \u003cb\u003e60 requests per minute\u003c/b\u003e.\n\u003cbr/\u003e\u003cbr/\u003e\n\u003cb\u003eReplace all the existing tags\u003c/b\u003e: the tags are sent in the contact request and replace all the existing tags of the contact. Include every tag the contact should keep.",
+            "enablingConditions": [
+              {
+                "paramName": "actionType",
+                "paramValue": "trackEvent",
+                "type": "NOT_EQUALS"
+              }
+            ]
           }
         ]
       },
@@ -1151,6 +1176,9 @@ const setCookie = require('setCookie');
 /*==============================================================================
 ==============================================================================*/
 
+const API_BASE_URL = 'https://api.omnisend.com/api';
+const API_VERSION = '2026-03-15';
+
 const eventData = getAllEventData();
 
 if (shouldExitEarly(data, eventData)) return;
@@ -1220,17 +1248,10 @@ function addContactProperties(data, mappedData) {
   }
 
   if (data.contactPropertiesList) {
-    const castValueByKey = (key, value) => {
-      switch (key) {
-        case 'sendWelcomeEmail':
-          return [1, '1', true, 'true'].indexOf(value) !== -1 ? true : false;
-        default:
-          return value;
-      }
-    };
     data.contactPropertiesList.forEach((property) => {
-      const value = castValueByKey(property.name, property.value);
-      destination[property.name] = value;
+      // 'sendWelcomeEmail' is not a contact property anymore. It's mapped to 'identifiers[].sendWelcomeMessage'.
+      if (property.name === 'sendWelcomeEmail') return;
+      destination[property.name] = property.value;
     });
   }
 
@@ -1246,6 +1267,19 @@ function addContactProperties(data, mappedData) {
   }
 
   return mappedData;
+}
+
+function getSendWelcomeMessage(data) {
+  // The API defaults it to 'true'. It's 'false' unless explicitly enabled, to keep the API v5 behavior.
+  let sendWelcomeMessage = false;
+  if (!data.contactPropertiesList) return sendWelcomeMessage;
+
+  data.contactPropertiesList.forEach((property) => {
+    if (property.name !== 'sendWelcomeEmail') return;
+    sendWelcomeMessage = [1, '1', true, 'true'].indexOf(property.value) !== -1;
+  });
+
+  return sendWelcomeMessage;
 }
 
 function addContactIdentifiers(data, eventData, mappedData) {
@@ -1341,7 +1375,7 @@ function addContactIdentifiers(data, eventData, mappedData) {
       const channel = {};
       channel[channelName] = {
         status: subscriptionStatus.status ? subscriptionStatus.status : 'nonSubscribed',
-        statusDate: subscriptionStatus.statusDate || undefined // Not required
+        statusChangedAt: subscriptionStatus.statusDate || undefined // Not required
       };
       return channel;
     };
@@ -1356,6 +1390,7 @@ function addContactIdentifiers(data, eventData, mappedData) {
     };
 
     const identifiers = [];
+    const sendWelcomeMessage = getSendWelcomeMessage(data);
 
     [
       {
@@ -1396,6 +1431,7 @@ function addContactIdentifiers(data, eventData, mappedData) {
       const consent = processConsent(identifier.consent);
       // If the object doesn't have properties, the API considers it as 'Consent Exists' and it uses the current timestamp.
       if (consent) identifierData.consent = consent;
+      identifierData.sendWelcomeMessage = sendWelcomeMessage;
       identifiers.push(identifierData);
     });
 
@@ -1586,16 +1622,14 @@ function storeContactIdCookie(data, contactId) {
 function createContact(data, mappedData) {
   Object.delete(mappedData, 'contactID'); // If the user forces it, remove it.
 
-  sendRequest(data, {
-    path: '/contacts',
-    bodies: [mappedData]
-  });
+  sendContactRequest(data, '/contacts', mappedData);
 }
 
 function updateContact(data, eventData, mappedData) {
   let path = '/contacts';
+  let contactId;
   if (data.updateContactSearchKey === 'contactId') {
-    const contactId = getOmnisendContactId(data, eventData);
+    contactId = getOmnisendContactId(data, eventData);
     path += '/' + enc(contactId);
   } else {
     const email = data.contactEmail;
@@ -1604,13 +1638,52 @@ function updateContact(data, eventData, mappedData) {
 
   Object.delete(mappedData, 'contactID'); // If the user forces it, remove it.
 
+  sendContactRequest(data, path, mappedData, contactId);
+}
+
+// On Create/Update Contact, the 'tags' field replaces all the existing tags of the contact.
+// When appending (default), the tags are sent to the Batch add tags endpoint after the contact request.
+function sendContactRequest(data, path, mappedData, fallbackContactId) {
+  let tagsToAdd;
+  if (data.contactTagsMode !== 'replace' && mappedData.tags) {
+    tagsToAdd = mappedData.tags;
+    Object.delete(mappedData, 'tags');
+  }
+
   sendRequest(data, {
     path: path,
-    bodies: [mappedData]
+    bodies: [mappedData],
+    onSuccess: (response) => {
+      const responseBody = safeJsonParse(response.body) || {};
+      const contactId = responseBody.id || responseBody.contactID || fallbackContactId;
+
+      if (data.actionType === 'createContact' && contactId) {
+        storeContactIdCookie(data, contactId);
+      }
+
+      if (tagsToAdd) return addContactTags(data, contactId, tagsToAdd);
+      return true;
+    }
   });
 }
 
-function generateRequestOptions(data) {
+function addContactTags(data, contactId, tags) {
+  const requestBody = { tags: tags };
+  if (contactId) requestBody.contactIDs = [makeString(contactId)];
+  else if (data.contactEmail) requestBody.emails = [data.contactEmail];
+  else if (data.contactPhone) requestBody.phones = [data.contactPhone];
+  else return false;
+
+  return sendHttpRequest(
+    API_BASE_URL + '/contacts/tags',
+    generateRequestOptions(data, 'POST'),
+    JSON.stringify(requestBody)
+  )
+    .then((response) => isSuccessStatusCode(response.statusCode))
+    .catch((error) => false);
+}
+
+function generateRequestOptions(data, method) {
   const actionTypeToRequestMethod = {
     trackEvent: 'POST',
     createContact: 'POST',
@@ -1620,31 +1693,23 @@ function generateRequestOptions(data) {
   return {
     headers: {
       'Content-Type': 'application/json',
-      'X-API-KEY': data.apiKey
+      Authorization: 'Omnisend-API-Key ' + data.apiKey,
+      'Omnisend-Version': API_VERSION
     },
-    method: actionTypeToRequestMethod[data.actionType]
+    method: method || actionTypeToRequestMethod[data.actionType]
   };
 }
 
 function sendRequest(data, requestData) {
-  const requestUrl = 'https://api.omnisend.com/v5' + requestData.path;
+  const requestUrl = API_BASE_URL + requestData.path;
   const requestOptions = generateRequestOptions(data);
   const requestBodies = requestData.bodies;
-
-  const eventName =
-    data.actionType + (data.actionType === 'trackEvent' ? '|' + requestBodies[0].eventName : '');
 
   const requests = requestBodies.map((requestBody) => {
     return sendHttpRequest(requestUrl, requestOptions, JSON.stringify(requestBody))
       .then((response) => {
-        if (response.statusCode >= 200 && response.statusCode < 300) {
-          if (data.actionType === 'createContact') {
-            const parsedBody = JSON.parse(response.body || '{}');
-            if (parsedBody.contactID) storeContactIdCookie(data, parsedBody.contactID);
-          }
-          return true;
-        }
-        return false;
+        if (!isSuccessStatusCode(response.statusCode)) return false;
+        return requestData.onSuccess ? requestData.onSuccess(response) : true;
       })
       .catch((error) => {
         return false;
@@ -1682,9 +1747,24 @@ function shouldExitEarly(data, eventData) {
   }
 }
 
+function isSuccessStatusCode(statusCode) {
+  return statusCode >= 200 && statusCode < 300;
+}
+
+function safeJsonParse(value) {
+  if (getType(value) !== 'string') return;
+  const trimmed = value.trim();
+  const first = trimmed.charAt(0);
+  const last = trimmed.charAt(trimmed.length - 1);
+  if ((first === '{' && last === '}') || (first === '[' && last === ']')) {
+    return JSON.parse(trimmed);
+  }
+}
+
 function isValidValue(value) {
   const valueType = getType(value);
-  return valueType !== 'null' && valueType !== 'undefined' && value !== '' && value === value;
+  if (valueType === 'null' || valueType === 'undefined' || value !== value) return false;
+  return value !== '' && value !== 'undefined' && value !== 'null';
 }
 
 function getCookieDomain(defaultCookieDomain) {
@@ -1716,75 +1796,54 @@ function isConsentGivenOrNotRequired(data, eventData) {
 }
 
 function convertTimestampToISO(timestamp) {
-  const leapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  const nonLeapYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  const secToMs = (s) => s * 1000;
-  const minToMs = (m) => m * secToMs(60);
-  const hoursToMs = (h) => h * minToMs(60);
-  const daysToMs = (d) => d * hoursToMs(24);
-  const padStart = (value, length) => {
+  const msPerDay = 86400000;
+  const isLeapYear = (y) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
+  const pad = (value, length) => {
     let result = makeString(value);
-    while (result.length < length) {
-      result = '0' + result;
-    }
+    while (result.length < length) result = '0' + result;
     return result;
   };
 
-  const fourYearsInMs = daysToMs(365 * 4 + 1);
-  let year = 1970 + Math.floor(timestamp / fourYearsInMs) * 4;
-  timestamp = timestamp % fourYearsInMs;
+  let days = Math.floor(timestamp / msPerDay);
+  let msOfDay = timestamp - days * msPerDay;
 
-  while (true) {
-    let isLeapYear = year % 4 === 0;
-    let nextTimestamp = timestamp - daysToMs(isLeapYear ? 366 : 365);
-    if (nextTimestamp < 0) {
-      break;
-    }
-    timestamp = nextTimestamp;
-    year = year + 1;
+  let year = 1970;
+  while (days >= (isLeapYear(year) ? 366 : 365)) {
+    days = days - (isLeapYear(year) ? 366 : 365);
+    year++;
   }
 
-  const daysByMonth = year % 4 === 0 ? leapYear : nonLeapYear;
-
+  const daysInMonth = [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   let month = 0;
-  for (let i = 0; i < daysByMonth.length; i++) {
-    const msInThisMonth = daysToMs(daysByMonth[i]);
-    if (timestamp > msInThisMonth) {
-      timestamp = timestamp - msInThisMonth;
-    } else {
-      month = i + 1;
-      break;
-    }
+  while (days >= daysInMonth[month]) {
+    days = days - daysInMonth[month];
+    month++;
   }
 
-  const date = Math.ceil(timestamp / daysToMs(1));
-  timestamp = timestamp - daysToMs(date - 1);
-  const hours = Math.floor(timestamp / hoursToMs(1));
-  timestamp = timestamp - hoursToMs(hours);
-  const minutes = Math.floor(timestamp / minToMs(1));
-  timestamp = timestamp - minToMs(minutes);
-  const sec = Math.floor(timestamp / secToMs(1));
-  timestamp = timestamp - secToMs(sec);
-  const milliSeconds = timestamp;
+  const hours = Math.floor(msOfDay / 3600000);
+  msOfDay = msOfDay - hours * 3600000;
+  const minutes = Math.floor(msOfDay / 60000);
+  msOfDay = msOfDay - minutes * 60000;
+  const seconds = Math.floor(msOfDay / 1000);
+  const milliseconds = msOfDay - seconds * 1000;
 
   return (
     year +
     '-' +
-    padStart(month, 2) +
+    pad(month + 1, 2) +
     '-' +
-    padStart(date, 2) +
+    pad(days + 1, 2) +
     'T' +
-    padStart(hours, 2) +
+    pad(hours, 2) +
     ':' +
-    padStart(minutes, 2) +
+    pad(minutes, 2) +
     ':' +
-    padStart(sec, 2) +
+    pad(seconds, 2) +
     '.' +
-    padStart(milliSeconds, 3) +
+    pad(milliseconds, 3) +
     'Z'
   );
 }
-
 
 ___SERVER_PERMISSIONS___
 
@@ -2015,86 +2074,932 @@ ___SERVER_PERMISSIONS___
 
 ___TESTS___
 
-scenarios: []
-setup: "const Promise = require('Promise');\nconst JSON = require('JSON');\nconst\
-  \ makeInteger = require('makeInteger');\nconst Object = require('Object');\nconst\
-  \ callLater = require('callLater');\n\nfunction assign() {\n  const target = arguments[0];\n\
-  \  for (let i = 1; i < arguments.length; i++) {\n    for (let key in arguments[i])\
-  \ {\n      target[key] = arguments[i][key];\n    }\n  }\n  return target;\n}\n\n\
-  const mockData = {\n  apiKey: 'expectedApiKey'\n};\n\nconst EXPECTED_API_VERSION\
-  \ = '5';\nconst EXPECTED_REQUEST_BASE_URL = 'https://api.omnisend.com/v' + EXPECTED_API_VERSION;\n\
-  const GET_EXPECTED_REQUEST_URL_BY_TYPE = (type) => {\n  switch (type) {\n    case\
-  \ 'trackEvent':\n      return EXPECTED_REQUEST_BASE_URL + '/events';\n    case 'updateContact':\n\
-  \    case 'createContact':\n      return EXPECTED_REQUEST_BASE_URL + '/contacts';\n\
-  \  }\n};\nconst GET_EXPECTED_REQUEST_OPTIONS_BY_TYPE = (type) => {\n  return {\n\
-  \    method: type === 'updateContact' ? 'PATCH' : 'POST',\n    headers: {\n    \
-  \  'X-API-KEY': mockData.apiKey,\n      'Content-Type': 'application/json'\n   \
-  \ }\n  };\n};\n\n\nconst cleanup = () => {\n  mock('getAllEventData', {});\n  mock('getCookieValues',\
-  \ []);\n};\n\nconst setMockDataByType = (type, objToBeMerged) => {\n  const commonParameters\
-  \ = {\n    contactEmail: 'asdasd@example.com',\n    addEmailSubscriptionStatus:\
-  \ true,\n    emailSubscriptionStatus: [{ status: 'subscribed', statusDate: '' }],\n\
-  \    addEmailConsent: true,\n    emailConsent: [{ createdAt: '', ip: '', source:\
-  \ 'gtm', userAgent: '' }],\n\n    contactPhone: '1111111114343',\n    addPhoneSubscriptionStatus:\
-  \ true,\n    phoneSubscriptionStatus: [{ status: 'unsubscribed', statusDate: ''\
-  \ }],\n    addPhoneConsent: true,\n    phoneConsent: [{ createdAt: '', ip: '', source:\
-  \ 'gtm', userAgent: '' }],\n\n    contactTags: [{ value: 'tag1' }, { value: 'tag2'\
-  \ }],\n\n    contactPropertiesList: [\n      { name: 'address', value: 'address'\
-  \ },\n      { name: 'birthdate', value: 'birthdate' },\n      { name: 'firstName',\
-  \ value: 'firstname' },\n      { name: 'lastName', value: 'lastname' },\n      {\
-  \ name: 'gender', value: 'gender' },\n      { name: 'city', value: 'city' },\n \
-  \     { name: 'state', value: 'state' },\n      { name: 'postalCode', value: 'postalcode'\
-  \ },\n      { name: 'country', value: 'country' },\n      { name: 'countryCode',\
-  \ value: 'countrycode' },\n      { name: 'createdAt', value: 'createdat' },\n  \
-  \    { name: 'sendWelcomeEmail', value: 'true' }\n    ],\n    contactCustomPropertiesList:\
-  \ [{ name: 'test', value: 'test' }]\n  };\n  \n  const parametersByType = {\n  \
-  \  trackEvent: {\n      actionType: 'trackEvent',\n      \n      eventType: 'standard',\n\
-  \      eventNameStandard: 'viewed product',\n      useOptimisticScenario: false,\n\
-  \    \n      eventTimestamp: '2025-10-10T00:00:00Z',\n      eventVersion: 'v4',\n\
-  \      eventId: '11111111',\n    \n      useFallbackContactId: true,\n      contactId:\
-  \ '111111111',\n    \n      autoMapEventProperties: true,\n      eventPropertiesList:\
-  \ [{ name: 'value', value: '123' }],\n      eventCustomPropertiesList: [{ name:\
-  \ 'foo', value: 'bar' }]\n    },\n    createContact: {\n     actionType: 'createContact',\n\
-  \n     storeCreatedContactId: true,\n     contactIdCookieDomain: 'auto',\n     contactIdCookieSameSite:\
-  \ 'lax'\n    },\n    updateContact: {\n      actionType: 'updateContact',\n    \n\
-  \      updateContactSearchKey: 'contactId', // email\n      useFallbackContactId:\
-  \ true,\n      contactId: '111111111'\n    }\n  };\n  \n  return assign(JSON.parse(JSON.stringify(mockData)),\
-  \ commonParameters, parametersByType[type], objToBeMerged || {});\n};\n\nconst setGetAllEventData\
-  \ = (objToBeMerged) => {\n  mock('getAllEventData', assign({\n    'x-ga-protocol_version':\
-  \ '2',\n    'x-ga-measurement_id': 'G-123ABC',\n    'x-ga-gtm_version': '45je55e1za200',\n\
-  \    'x-ga-page_id': 1747422523211,\n    'x-ga-gcd': '13l3l3l3l1l1',\n    'x-ga-npa':\
-  \ '0',\n    'x-ga-dma': '0',\n    'x-ga-mp2-tag_exp':\n      '101509157~103116025~103130498~103130500~103136993~103136995~103200001~103207802~103211513~103233427~103252644~103252646~103263073~103301114~103301116',\n\
-  \    client_id: 'AUJctU7H7hBB/aMuhE4pKwGu5DWDdklg5abyyyn8i/I=.1747154479',\n   \
-  \ 'x-ga-ecid': '1294673677',\n    language: 'en-us',\n    screen_resolution: '1512x982',\n\
-  \    event_location: { country: 'BR', region: 'SP' },\n    event_id: '101509157~103116025~103130498',\n\
-  \    timestamp: 1748377016,\n    client_hints: {\n      architecture: 'arm',\n \
-  \     bitness: '64',\n      full_version_list: [\n        { brand: 'Chromium', version:\
-  \ '136.0.7103.93' },\n        { brand: 'Google Chrome', version: '136.0.7103.93'\
-  \ },\n        { brand: 'Not.A/Brand', version: '99.0.0.0' }\n      ],\n      mobile:\
-  \ false,\n      model: '',\n      platform: 'macOS',\n      platform_version: '15.2.0',\n\
-  \      wow64: false,\n      brands: [\n        { brand: 'Chromium', version: '136'\
-  \ },\n        { brand: 'Google Chrome', version: '136' },\n        { brand: 'Not.A/Brand',\
-  \ version: '99' }\n      ]\n    },\n    'x-ga-are': '1',\n    'x-ga-mp2-frm': '0',\n\
-  \    'x-ga-pscdl': 'noapi',\n    'x-ga-system_properties': { eu: [34], tu: 'BA',\
-  \ ss: '1', ee: true },\n    'x-sst-system_properties': {\n      etld: 'google.com.br',\n\
-  \      tft: '1747422523211',\n      lpc: '60493049',\n      navt: 'r',\n      ude:\
-  \ '0',\n      sw_exp: '1',\n      request_start_time_ms: 1747422524851\n    },\n\
-  \    'x-ga-request_count': 1,\n    ga_session_id: '1747422523',\n    ga_session_number:\
-  \ 3,\n    'x-ga-mp2-seg': '0',\n    page_location: 'https://example.com/?test=1i23i21j3',\n\
-  \    page_title: 'Example Domain',\n    event_name: 'page_view',\n    'x-ga-tfd':\
-  \ 5784,\n    ip_override: '2804:14d:c096:8dd6:311c:8c00:e6c:e33',\n    user_agent:\n\
-  \      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,\
-  \ like Gecko) Chrome/136.0.0.0 Safari/537.36',\n    value: 123.45,\n    currency:\
-  \ 'BRL',\n    user_data: {\n      email: { 0: 'test1@example.net', 1: 'test2@example.org'\
-  \ },\n      phone_number: '+55 (19) 99999-9999'\n    }\n  }, objToBeMerged || {}));\n\
-  };\n\nmock('sendHttpRequest', (requestUrl, callback, requestOptions, requestBody)\
-  \ => {\n  if (typeof callback === 'function') {\n    callback(200);\n  } else {\n\
-  \    requestBody = requestOptions;\n    requestOptions = callback;\n    return Promise.create((resolve,\
-  \ reject) => {\n      resolve({ statusCode: 200 });\n    });  \n  }\n});\n\nmock('getRequestHeader',\
-  \ (header) => {\n  if (header === 'trace-id') return 'expectedTraceId';\n});\n\n\
-  mock('getTimestampMillis', 1747945830456);"
+scenarios:
+- name: '[Early Exit] Succeeds without sending requests when ad_storage consent is required
+    but denied'
+  code: |-
+    const mockData = createMockData('trackEvent', { adStorageConsent: 'required' });
+    mock('getAllEventData', { page_location: 'https://example.com/page', 'x-ga-gcs': 'G100' });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(0);
+      assertApi('sendHttpRequest').wasNotCalled();
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Early Exit] Sends the request when ad_storage consent is required and granted'
+  code: |-
+    [
+      { page_location: 'https://example.com/page', 'x-ga-gcs': 'G110' },
+      { page_location: 'https://example.com/page', consent_state: { ad_storage: true } }
+    ].forEach((eventData) => {
+      cleanup();
+      const mockData = createMockData('trackEvent', { adStorageConsent: 'required' });
+      mock('getAllEventData', eventData);
+      const requests = captureRequests();
+
+      runCode(mockData);
+
+      callLater(() => {
+        assertThat(requests).hasLength(1);
+        assertApi('gtmOnSuccess').wasCalled();
+        assertApi('gtmOnFailure').wasNotCalled();
+      });
+    });
+- name: '[Early Exit] Succeeds without sending requests for gtm-msr appspot preview URLs'
+  code: |-
+    const mockData = createMockData('trackEvent');
+    mock('getAllEventData', { page_location: 'https://gtm-msr.appspot.com/render?id=GTM-XXXX' });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(0);
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Early Exit] Fails when the action type is unknown'
+  code: |-
+    const mockData = createMockData('trackEvent', { actionType: 'unknownAction' });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(0);
+      assertApi('gtmOnSuccess').wasNotCalled();
+      assertApi('gtmOnFailure').wasCalled();
+    });
+- name: '[Track Event] Builds the URL, headers and full payload of a standard event'
+  code: |-
+    const mockData = createMockData('trackEvent', {
+      contactId: 'contact123',
+      addEmailSubscriptionStatus: true,
+      emailSubscriptionStatus: [{ status: 'subscribed', statusDate: '2025-01-01T00:00:00Z' }],
+      addEmailConsent: true,
+      emailConsent: [{ createdAt: '', ip: '1.1.1.1', source: 'gtm', userAgent: '' }],
+      addPhoneSubscriptionStatus: true,
+      phoneSubscriptionStatus: [{ status: 'unsubscribed', statusDate: '' }],
+      addPhoneConsent: true,
+      phoneConsent: [{ createdAt: '', ip: '', source: 'gtm', userAgent: '' }],
+      contactPropertiesList: [
+        { name: 'firstName', value: 'John' },
+        { name: 'state', value: 'CA' },
+        { name: 'sendWelcomeEmail', value: 'true' }
+      ],
+      contactCustomPropertiesList: [{ name: 'plan', value: 'gold' }],
+      eventId: 'evt-1',
+      eventTimestamp: '2025-10-10T00:00:00Z',
+      eventPropertiesList: [{ name: 'value', value: 10 }],
+      eventCustomPropertiesList: [{ name: 'foo', value: 'bar' }]
+    });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(1);
+      assertThat(requests[0].url).isEqualTo(EXPECTED_BASE_URL + '/events');
+      assertThat(requests[0].options).isEqualTo(getExpectedOptions('POST'));
+      assertThat(requests[0].body).isEqualTo({
+        contact: {
+          firstName: 'John',
+          state: 'CA',
+          tags: ['tag1', 'tag2', 'tag3'],
+          customProperties: { plan: 'gold' },
+          id: 'contact123',
+          email: 'john@example.com',
+          phone: '+15555550100',
+          consents: [
+            { ip: '1.1.1.1', source: 'gtm', channel: 'email', createdAt: NOW_ISO },
+            { source: 'gtm', channel: 'sms', createdAt: NOW_ISO }
+          ],
+          optIns: [{ channel: 'email', createdAt: '2025-01-01T00:00:00Z' }],
+          optOuts: [{ channel: 'sms', createdAt: NOW_ISO }]
+        },
+        eventName: 'started checkout',
+        eventVersion: 'v2',
+        origin: 'stape-s2s-tag',
+        eventID: 'evt-1',
+        eventTime: '2025-10-10T00:00:00Z',
+        properties: { value: 10, foo: 'bar' }
+      });
+      assertApi('setCookie').wasNotCalled();
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Track Event] Tags stay in the event contact and never use the batch tags endpoint'
+  code: |-
+    ['append', 'replace'].forEach((contactTagsMode) => {
+      cleanup();
+      const mockData = createMockData('trackEvent', { contactTagsMode: contactTagsMode });
+      const requests = captureRequests();
+
+      runCode(mockData);
+
+      callLater(() => {
+        assertThat(requests).hasLength(1);
+        assertThat(requests[0].url).isEqualTo(EXPECTED_BASE_URL + '/events');
+        assertThat(requests[0].body.contact.tags).isEqualTo(['tag1', 'tag2', 'tag3']);
+        assertApi('gtmOnSuccess').wasCalled();
+        assertApi('gtmOnFailure').wasNotCalled();
+      });
+    });
+- name: '[Track Event] Inherit maps a GA4 purchase with items into placed order properties'
+  code: |-
+    const mockData = createMockData('trackEvent', {
+      eventType: 'inherit',
+      autoMapEventProperties: true
+    });
+    mock('getAllEventData', {
+      event_name: 'purchase',
+      page_location: 'https://example.com/checkout?utm_source=google&utm_campaign=spring&utm_medium=cpc',
+      page_title: 'Checkout',
+      items: JSON.stringify([
+        { item_id: 'sku1', item_name: 'Shirt', discount: 1, quantity: 2, price: 10 },
+        { item_id: 2, item_name: 'Hat', price: '5' }
+      ]),
+      currency: 'USD',
+      value: 50,
+      tax: 5,
+      shipping: 3,
+      transaction_id: 'T1',
+      shipping_tier: 'express',
+      payment_type: 'card'
+    });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(1);
+      assertThat(requests[0].body.eventName).isEqualTo('placed order');
+      assertThat(requests[0].body.eventVersion).isEqualTo('v2');
+      assertThat(requests[0].body.properties).isEqualTo({
+        page: {
+          url: 'https://example.com/checkout?utm_source=google&utm_campaign=spring&utm_medium=cpc',
+          title: 'Checkout'
+        },
+        utm: { source: 'google', campaign: 'spring', medium: 'cpc' },
+        lineItems: [
+          { productID: 'sku1', productTitle: 'Shirt', productDiscount: 1, productQuantity: 2, productPrice: 10 },
+          { productID: '2', productTitle: 'Hat', productPrice: 5 }
+        ],
+        currency: 'USD',
+        totalPrice: 50,
+        totalTax: 5,
+        shippingPrice: 3,
+        orderID: 'T1',
+        orderNumber: 'T1',
+        shippingMethod: 'express',
+        paymentMethod: 'card'
+      });
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Track Event] Inherit refund computes the refunded amount from items when value is
+    missing'
+  code: |-
+    const mockData = createMockData('trackEvent', {
+      eventType: 'inherit',
+      autoMapEventProperties: true
+    });
+    mock('getAllEventData', {
+      event_name: 'refund',
+      page_location: 'https://example.com/refund',
+      items: [{ item_id: 'a', price: '10.10', quantity: 3 }]
+    });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      const properties = requests[0].body.properties;
+      assertThat(requests[0].body.eventName).isEqualTo('order refunded');
+      assertThat(properties.refundedLineItems).isEqualTo([
+        { productID: 'a', productQuantity: 3, productPrice: 10.1 }
+      ]);
+      assertThat(properties.totalRefundedAmount).isEqualTo(30.3);
+      assertThat(properties.lineItems).isUndefined();
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Track Event] Inherit view_item maps the first item into the product property'
+  code: |-
+    const mockData = createMockData('trackEvent', {
+      eventType: 'inherit',
+      autoMapEventProperties: true
+    });
+    mock('getAllEventData', {
+      event_name: 'view_item',
+      page_location: 'https://example.com/product',
+      items: [{ item_id: 123, item_name: 'Shoe', price: '99.9', currency: 'EUR' }]
+    });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      const body = requests[0].body;
+      assertThat(body.eventName).isEqualTo('viewed product');
+      assertThat(body.eventVersion).isEqualTo('v4');
+      assertThat(body.properties.product).isEqualTo({
+        id: '123',
+        title: 'Shoe',
+        price: 99.9,
+        currency: 'EUR'
+      });
+      assertThat(body.properties.currency).isEqualTo('EUR');
+      assertThat(body.properties.value).isUndefined();
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Track Event] Added product to cart sends one request per item'
+  code: |-
+    const mockData = createMockData('trackEvent', {
+      eventType: 'inherit',
+      autoMapEventProperties: true
+    });
+    mock('getAllEventData', {
+      event_name: 'add_to_cart',
+      page_location: 'https://example.com/product',
+      items: [
+        { item_id: 'a', price: 10, quantity: 2 },
+        { item_id: 'b', price: 5 }
+      ]
+    });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertThat(requests[0].body.eventName).isEqualTo('added product to cart');
+      assertThat(requests[0].body.eventVersion).isEqualTo('');
+      assertThat(requests[0].body.properties.addedItem).isEqualTo({
+        productID: 'a',
+        productQuantity: 2,
+        productPrice: 10
+      });
+      assertThat(requests[0].body.value).isEqualTo(20);
+      assertThat(requests[1].body.properties.addedItem).isEqualTo({ productID: 'b', productPrice: 5 });
+      assertThat(requests[1].body.value).isEqualTo(5);
+      assertThat(requests[1].body.properties.value).isEqualTo(25);
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Track Event] Fails when one of the added product to cart requests fails'
+  code: |-
+    const mockData = createMockData('trackEvent', {
+      eventType: 'inherit',
+      autoMapEventProperties: true
+    });
+    mock('getAllEventData', {
+      event_name: 'add_to_cart',
+      page_location: 'https://example.com/product',
+      items: [{ item_id: 'a', price: 10 }, { item_id: 'b', price: 5 }]
+    });
+    const requests = captureRequests((request, index) => {
+      return index === 1 ? { statusCode: 400, body: '{}' } : { statusCode: 202, body: '' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertApi('gtmOnSuccess').wasNotCalled();
+      assertApi('gtmOnFailure').wasCalled();
+    });
+- name: '[Track Event] Custom event name, event version override and nonSubscribed status'
+  code: |-
+    const mockData = createMockData('trackEvent', {
+      eventType: 'custom',
+      eventNameCustom: 'my custom event',
+      eventVersion: 'v9',
+      contactPhone: undefined,
+      contactTags: undefined,
+      addEmailSubscriptionStatus: true,
+      emailSubscriptionStatus: [{ status: 'nonSubscribed', statusDate: '' }]
+    });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests[0].body).isEqualTo({
+        contact: { email: 'john@example.com' },
+        eventName: 'my custom event',
+        eventVersion: 'v9',
+        origin: 'stape-s2s-tag',
+        properties: {}
+      });
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Track Event] Contact ID priority (field, URL, referrer, cookie, event data)'
+  code: |-
+    [
+      {
+        overrides: { contactId: 'fromField' },
+        eventData: { page_location: 'https://example.com/?omnisendContactID=fromUrl' },
+        cookie: 'fromCookie',
+        expected: 'fromField'
+      },
+      {
+        overrides: {},
+        eventData: {
+          page_location: 'https://example.com/?omnisendContactID=fromUrl',
+          omnisendContactID: 'fromEvent'
+        },
+        cookie: 'fromCookie',
+        expected: 'fromUrl'
+      },
+      {
+        overrides: {},
+        eventData: { page_referrer: 'https://example.com/?omnisendContactID=fromReferrer' },
+        cookie: undefined,
+        expected: 'fromReferrer'
+      },
+      {
+        overrides: {},
+        eventData: { page_location: 'https://example.com/', omnisendContactID: 'fromEvent' },
+        cookie: 'fromCookie',
+        expected: 'fromCookie'
+      },
+      {
+        overrides: {},
+        eventData: { page_location: 'https://example.com/', omnisendContactID: 'fromEvent' },
+        cookie: undefined,
+        expected: 'fromEvent'
+      },
+      {
+        overrides: { useFallbackContactId: false },
+        eventData: { page_location: 'https://example.com/?omnisendContactID=fromUrl' },
+        cookie: 'fromCookie',
+        expected: undefined
+      }
+    ].forEach((scenario) => {
+      cleanup();
+      const mockData = createMockData('trackEvent', scenario.overrides);
+      mock('getAllEventData', scenario.eventData);
+      mock('getCookieValues', (name) => {
+        return name === 'omnisendContactID' && scenario.cookie ? [scenario.cookie] : [];
+      });
+      const requests = captureRequests();
+
+      runCode(mockData);
+
+      callLater(() => {
+        assertThat(requests[0].body.contact.id).isEqualTo(scenario.expected);
+        assertApi('gtmOnSuccess').wasCalled();
+        assertApi('gtmOnFailure').wasNotCalled();
+      });
+    });
+- name: '[Track Event] Default opt in and consent dates are correct around midnight'
+  code: |-
+    [
+      { timestamp: 1704067200000, expected: '2024-01-01T00:00:00.000Z' },
+      { timestamp: 1709251200000, expected: '2024-03-01T00:00:00.000Z' },
+      { timestamp: 1709164799999, expected: '2024-02-28T23:59:59.999Z' },
+      { timestamp: 4107542400000, expected: '2100-03-01T00:00:00.000Z' }
+    ].forEach((scenario) => {
+      cleanup();
+      mock('getTimestampMillis', scenario.timestamp);
+      const mockData = createMockData('trackEvent', {
+        contactPhone: undefined,
+        addEmailSubscriptionStatus: true,
+        emailSubscriptionStatus: [{ status: 'subscribed', statusDate: '' }],
+        addEmailConsent: true,
+        emailConsent: [{ createdAt: '', ip: '', source: 'gtm', userAgent: '' }]
+      });
+      const requests = captureRequests();
+
+      runCode(mockData);
+
+      callLater(() => {
+        const contact = requests[0].body.contact;
+        assertThat(contact.optIns).isEqualTo([{ channel: 'email', createdAt: scenario.expected }]);
+        assertThat(contact.consents[0].createdAt).isEqualTo(scenario.expected);
+        assertApi('gtmOnSuccess').wasCalled();
+        assertApi('gtmOnFailure').wasNotCalled();
+      });
+    });
+- name: '[Track Event] Ignores null and undefined string values in auto mapped properties'
+  code: |-
+    const mockData = createMockData('trackEvent', {
+      eventType: 'inherit',
+      autoMapEventProperties: true
+    });
+    mock('getAllEventData', {
+      event_name: 'purchase',
+      page_location: 'https://example.com/checkout',
+      items: [{ item_id: 'a', price: 'null', quantity: 'undefined', discount: '' }],
+      value: 'null',
+      tax: 'undefined',
+      shipping: 3
+    });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      const properties = requests[0].body.properties;
+      assertThat(properties.lineItems).isEqualTo([{ productID: 'a' }]);
+      assertThat(properties.totalPrice).isEqualTo(0);
+      assertThat(properties.totalTax).isUndefined();
+      assertThat(properties.shippingPrice).isEqualTo(3);
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Create Contact] Default tags behavior sends the contact without tags, then adds the
+    tags by contact ID'
+  code: |-
+    const mockData = createMockData('createContact', {
+      addEmailSubscriptionStatus: true,
+      emailSubscriptionStatus: [{ status: 'subscribed', statusDate: '2025-01-01T00:00:00Z' }],
+      addEmailConsent: true,
+      emailConsent: [{ createdAt: '', ip: '1.1.1.1', source: 'gtm', userAgent: '' }],
+      contactPropertiesList: [
+        { name: 'firstName', value: 'John' },
+        { name: 'sendWelcomeEmail', value: 'true' }
+      ],
+      contactCustomPropertiesList: [{ name: 'plan', value: 'gold' }]
+    });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+
+      assertThat(requests[0].url).isEqualTo(EXPECTED_BASE_URL + '/contacts');
+      assertThat(requests[0].options).isEqualTo(getExpectedOptions('POST'));
+      assertThat(requests[0].body).isEqualTo({
+        firstName: 'John',
+        customProperties: { plan: 'gold' },
+        identifiers: [
+          {
+            id: 'john@example.com',
+            type: 'email',
+            channels: { email: { status: 'subscribed', statusChangedAt: '2025-01-01T00:00:00Z' } },
+            consent: { ip: '1.1.1.1', source: 'gtm' },
+            sendWelcomeMessage: true
+          },
+          {
+            id: '+15555550100',
+            type: 'phone',
+            channels: { sms: { status: 'nonSubscribed' } },
+            sendWelcomeMessage: true
+          }
+        ]
+      });
+
+      assertThat(requests[1].url).isEqualTo(EXPECTED_BASE_URL + '/contacts/tags');
+      assertThat(requests[1].options).isEqualTo(getExpectedOptions('POST'));
+      assertThat(requests[1].body).isEqualTo({
+        tags: ['tag1', 'tag2', 'tag3'],
+        contactIDs: ['newContactId']
+      });
+
+      assertApi('setCookie').wasCalledWith(
+        'omnisendContactID',
+        'newContactId',
+        {
+          domain: 'example.com',
+          samesite: 'lax',
+          path: '/',
+          secure: true,
+          httpOnly: false,
+          'max-age': 31536000
+        },
+        false
+      );
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Create Contact] Replace tags behavior sends the tags in the contact request only'
+  code: |-
+    const mockData = createMockData('createContact', { contactTagsMode: 'replace' });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(1);
+      assertThat(requests[0].url).isEqualTo(EXPECTED_BASE_URL + '/contacts');
+      assertThat(requests[0].body.tags).isEqualTo(['tag1', 'tag2', 'tag3']);
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Create Contact] Sends no tags request when no tags are configured'
+  code: |-
+    [undefined, [{ value: '' }]].forEach((contactTags) => {
+      cleanup();
+      const mockData = createMockData('createContact', { contactTags: contactTags });
+      const requests = captureRequests();
+
+      runCode(mockData);
+
+      callLater(() => {
+        assertThat(requests).hasLength(1);
+        assertThat(requests[0].body.tags).isUndefined();
+        assertApi('gtmOnSuccess').wasCalled();
+        assertApi('gtmOnFailure').wasNotCalled();
+      });
+    });
+- name: '[Create Contact] Send Welcome Message is false unless explicitly enabled'
+  code: |-
+    [
+      { contactPropertiesList: undefined, expected: false },
+      { contactPropertiesList: [{ name: 'firstName', value: 'John' }], expected: false },
+      { contactPropertiesList: [{ name: 'sendWelcomeEmail', value: 'false' }], expected: false },
+      { contactPropertiesList: [{ name: 'sendWelcomeEmail', value: 'yes' }], expected: false },
+      { contactPropertiesList: [{ name: 'sendWelcomeEmail', value: 'true' }], expected: true },
+      { contactPropertiesList: [{ name: 'sendWelcomeEmail', value: true }], expected: true },
+      { contactPropertiesList: [{ name: 'sendWelcomeEmail', value: '1' }], expected: true },
+      { contactPropertiesList: [{ name: 'sendWelcomeEmail', value: 1 }], expected: true }
+    ].forEach((scenario) => {
+      cleanup();
+      const mockData = createMockData('createContact', {
+        contactPropertiesList: scenario.contactPropertiesList,
+        contactTags: undefined
+      });
+      const requests = captureRequests();
+
+      runCode(mockData);
+
+      callLater(() => {
+        const body = requests[0].body;
+        assertThat(body.sendWelcomeEmail).isUndefined();
+        assertThat(body.identifiers[0].sendWelcomeMessage).isEqualTo(scenario.expected);
+        assertThat(body.identifiers[1].sendWelcomeMessage).isEqualTo(scenario.expected);
+        assertApi('gtmOnSuccess').wasCalled();
+        assertApi('gtmOnFailure').wasNotCalled();
+      });
+    });
+- name: '[Create Contact] Reads the legacy contactID response field for the cookie and tags'
+  code: |-
+    const mockData = createMockData('createContact');
+    const requests = captureRequests((request) => {
+      if (request.url === EXPECTED_BASE_URL + '/contacts/tags') return { statusCode: 202, body: '' };
+      return { statusCode: 200, body: '{"contactID":"legacyId"}' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests[1].body.contactIDs).isEqualTo(['legacyId']);
+      assertApi('setCookie').wasCalledWith(
+        'omnisendContactID',
+        'legacyId',
+        {
+          domain: 'example.com',
+          samesite: 'lax',
+          path: '/',
+          secure: true,
+          httpOnly: false,
+          'max-age': 31536000
+        },
+        false
+      );
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Create Contact] Does not store the cookie when the option is disabled'
+  code: |-
+    const mockData = createMockData('createContact', { storeCreatedContactId: false });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertApi('setCookie').wasNotCalled();
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Create Contact] Non JSON success body does not crash and tags fall back to the email'
+  code: |-
+    const mockData = createMockData('createContact');
+    const requests = captureRequests((request) => {
+      if (request.url === EXPECTED_BASE_URL + '/contacts/tags') return { statusCode: 202, body: '' };
+      return { statusCode: 201, body: '<html>Created</html>' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertThat(requests[1].body).isEqualTo({ tags: ['tag1', 'tag2', 'tag3'], emails: ['john@example.com'] });
+      assertApi('setCookie').wasNotCalled();
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Create Contact] Tags fall back to the phone when there is no contact ID and no email'
+  code: |-
+    const mockData = createMockData('createContact', { contactEmail: undefined });
+    const requests = captureRequests((request) => {
+      if (request.url === EXPECTED_BASE_URL + '/contacts/tags') return { statusCode: 202, body: '' };
+      return { statusCode: 201, body: '' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertThat(requests[0].body.identifiers).hasLength(1);
+      assertThat(requests[1].body).isEqualTo({ tags: ['tag1', 'tag2', 'tag3'], phones: ['+15555550100'] });
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Create Contact] Fails and skips the tags request when the contact request fails'
+  code: |-
+    [{ statusCode: 400, body: '{"title":"Validation failed"}' }, 'reject'].forEach((response) => {
+      cleanup();
+      const mockData = createMockData('createContact');
+      const requests = captureRequests(() => response);
+
+      runCode(mockData);
+
+      callLater(() => {
+        assertThat(requests).hasLength(1);
+        assertApi('setCookie').wasNotCalled();
+        assertApi('gtmOnSuccess').wasNotCalled();
+        assertApi('gtmOnFailure').wasCalled();
+      });
+    });
+- name: '[Create Contact] Fails when the tags request returns an error status'
+  code: |-
+    const mockData = createMockData('createContact');
+    const requests = captureRequests((request) => {
+      if (request.url === EXPECTED_BASE_URL + '/contacts/tags') return { statusCode: 429, body: '{"title":"Rate limit exceeded"}' };
+      return { statusCode: 201, body: '{"id":"newContactId"}' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertApi('setCookie').wasCalled();
+      assertApi('gtmOnSuccess').wasNotCalled();
+      assertApi('gtmOnFailure').wasCalled();
+    });
+- name: '[Create Contact] Fails when the tags request is rejected'
+  code: |-
+    const mockData = createMockData('createContact');
+    const requests = captureRequests((request) => {
+      if (request.url === EXPECTED_BASE_URL + '/contacts/tags') return 'reject';
+      return { statusCode: 201, body: '{"id":"newContactId"}' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertApi('setCookie').wasCalled();
+      assertApi('gtmOnSuccess').wasNotCalled();
+      assertApi('gtmOnFailure').wasCalled();
+    });
+- name: '[Update Contact] By contact ID sends PATCH, skips the email without status or consent,
+    then adds the tags'
+  code: |-
+    const mockData = createMockData('updateContact', {
+      contactId: 'abc/123',
+      contactPropertiesList: [{ name: 'lastName', value: 'Doe' }]
+    });
+    const requests = captureRequests((request) => {
+      if (request.url === EXPECTED_BASE_URL + '/contacts/tags') return { statusCode: 202, body: '' };
+      return { statusCode: 200, body: '{"id":"abc/123"}' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertThat(requests[0].url).isEqualTo(EXPECTED_BASE_URL + '/contacts/abc%2F123');
+      assertThat(requests[0].options).isEqualTo(getExpectedOptions('PATCH'));
+      assertThat(requests[0].body).isEqualTo({
+        lastName: 'Doe',
+        identifiers: [
+          {
+            id: '+15555550100',
+            type: 'phone',
+            channels: { sms: { status: 'nonSubscribed' } },
+            sendWelcomeMessage: false
+          }
+        ]
+      });
+      assertThat(requests[1].url).isEqualTo(EXPECTED_BASE_URL + '/contacts/tags');
+      assertThat(requests[1].options).isEqualTo(getExpectedOptions('POST'));
+      assertThat(requests[1].body).isEqualTo({
+        tags: ['tag1', 'tag2', 'tag3'],
+        contactIDs: ['abc/123']
+      });
+      assertApi('setCookie').wasNotCalled();
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Update Contact] By contact ID uses the cookie ID and reuses it for tags when the
+    response has no ID'
+  code: |-
+    const mockData = createMockData('updateContact', { contactId: undefined });
+    mock('getCookieValues', (name) => (name === 'omnisendContactID' ? ['cookieId'] : []));
+    const requests = captureRequests((request) => {
+      if (request.url === EXPECTED_BASE_URL + '/contacts/tags') return { statusCode: 202, body: '' };
+      return { statusCode: 200, body: '' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests[0].url).isEqualTo(EXPECTED_BASE_URL + '/contacts/cookieId');
+      assertThat(requests[1].body.contactIDs).isEqualTo(['cookieId']);
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Update Contact] By email sends the email query parameter and keeps the email with
+    status'
+  code: |-
+    const mockData = createMockData('updateContact', {
+      updateContactSearchKey: 'email',
+      contactEmail: 'john+1@example.com',
+      contactPhone: undefined,
+      addEmailSubscriptionStatus: true,
+      emailSubscriptionStatus: [{ status: 'unsubscribed', statusDate: '' }]
+    });
+    const requests = captureRequests((request) => {
+      if (request.url === EXPECTED_BASE_URL + '/contacts/tags') return { statusCode: 202, body: '' };
+      return { statusCode: 200, body: '{"id":"idFromEmail"}' };
+    });
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(2);
+      assertThat(requests[0].url).isEqualTo(
+        EXPECTED_BASE_URL + '/contacts?email=john%2B1%40example.com'
+      );
+      assertThat(requests[0].options.method).isEqualTo('PATCH');
+      assertThat(requests[0].body).isEqualTo({
+        identifiers: [
+          {
+            id: 'john+1@example.com',
+            type: 'email',
+            channels: { email: { status: 'unsubscribed' } },
+            sendWelcomeMessage: false
+          }
+        ]
+      });
+      assertThat(requests[1].body.contactIDs).isEqualTo(['idFromEmail']);
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Update Contact] Replace tags behavior keeps the tags in the PATCH body'
+  code: |-
+    const mockData = createMockData('updateContact', { contactTagsMode: 'replace' });
+    const requests = captureRequests();
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(1);
+      assertThat(requests[0].url).isEqualTo(EXPECTED_BASE_URL + '/contacts/contact123');
+      assertThat(requests[0].body.tags).isEqualTo(['tag1', 'tag2', 'tag3']);
+      assertApi('gtmOnSuccess').wasCalled();
+      assertApi('gtmOnFailure').wasNotCalled();
+    });
+- name: '[Update Contact] Fails when the contact is not found'
+  code: |-
+    const mockData = createMockData('updateContact');
+    const requests = captureRequests(() => ({ statusCode: 404, body: '{"title":"Not found"}' }));
+
+    runCode(mockData);
+
+    callLater(() => {
+      assertThat(requests).hasLength(1);
+      assertApi('gtmOnSuccess').wasNotCalled();
+      assertApi('gtmOnFailure').wasCalled();
+    });
+- name: '[Optimistic Scenario] Calls gtmOnSuccess right away even when the request fails'
+  code: |-
+    ['trackEvent', 'createContact', 'updateContact'].forEach((actionType) => {
+      cleanup();
+      const mockData = createMockData(actionType, { useOptimisticScenario: true });
+      captureRequests(() => ({ statusCode: 500, body: '' }));
+
+      runCode(mockData);
+
+      assertApi('gtmOnSuccess').wasCalled();
+      callLater(() => {
+        assertApi('sendHttpRequest').wasCalled();
+        assertApi('gtmOnFailure').wasNotCalled();
+      });
+    });
+setup: |-
+  const Promise = require('Promise');
+  const JSON = require('JSON');
+  const Object = require('Object');
+  const callLater = require('callLater');
+
+  const EXPECTED_BASE_URL = 'https://api.omnisend.com/api';
+  const NOW_ISO = '2025-05-22T20:30:30.456Z';
+
+  const getExpectedOptions = (method) => ({
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Omnisend-API-Key expectedApiKey',
+      'Omnisend-Version': '2026-03-15'
+    }
+  });
+
+  const assign = (target, source) => {
+    if (!source) return target;
+    Object.keys(source).forEach((key) => {
+      target[key] = source[key];
+    });
+    return target;
+  };
+
+  const createMockData = (actionType, overrides) => {
+    const common = {
+      apiKey: 'expectedApiKey',
+      actionType: actionType,
+      useOptimisticScenario: false,
+      adStorageConsent: 'optional',
+      contactEmail: 'john@example.com',
+      contactPhone: '+15555550100',
+      contactTags: [{ value: 'tag1, tag2' }, { value: 'tag3' }]
+    };
+    const byActionType = {
+      trackEvent: {
+        eventType: 'standard',
+        eventNameStandard: 'started checkout',
+        useFallbackContactId: true,
+        autoMapEventProperties: false
+      },
+      createContact: {
+        storeCreatedContactId: true,
+        contactIdCookieDomain: 'auto',
+        contactIdCookieSameSite: 'lax'
+      },
+      updateContact: {
+        updateContactSearchKey: 'contactId',
+        useFallbackContactId: true,
+        contactId: 'contact123'
+      }
+    };
+    return assign(assign(assign({}, common), byActionType[actionType]), overrides);
+  };
+
+  // Records every request and answers with 'responder(request, index)'.
+  // A responder result of 'reject' makes the request promise reject.
+  const captureRequests = (responder) => {
+    const captured = [];
+    mock('sendHttpRequest', (url, options, body) => {
+      const request = { url: url, options: options, body: JSON.parse(body) };
+      const index = captured.length;
+      captured.push(request);
+
+      let response;
+      if (responder) response = responder(request, index);
+      else if (url === EXPECTED_BASE_URL + '/contacts/tags') response = { statusCode: 202, body: '' };
+      else if (url === EXPECTED_BASE_URL + '/events') response = { statusCode: 202, body: '' };
+      else response = { statusCode: 201, body: '{"id":"newContactId"}' };
+
+      if (response === 'reject') {
+        return Promise.create((resolve, reject) => reject({ reason: 'network error' }));
+      }
+      return Promise.create((resolve) => resolve(response));
+    });
+    return captured;
+  };
+
+  const cleanup = () => {
+    mock('getAllEventData', { page_location: 'https://example.com/page' });
+    mock('getEventData', (key) => (key === 'page_location' ? 'https://example.com/page' : undefined));
+    mock('getCookieValues', []);
+    mock('getRequestHeader', () => undefined);
+    mock('getTimestampMillis', 1747945830456);
+    mock('computeEffectiveTldPlusOne', 'example.com');
+    mock('setCookie', () => {});
+  };
+
+  cleanup();
 
 
 ___NOTES___
+
+2026-11-19 - Change Notes:
+  - Migrate to the Omnisend API version 2026-03-15 (new base URL, authentication and version headers, renamed fields), as API v5 will be discontinued on 2027-06-30
+  - Add the Tags Behavior option for Create/Update Contact: by default, tags are added to the existing ones through the Batch add tags endpoint (as in API v5), since the new API replaces them otherwise
+  - Send Welcome Message is sent as false when not set, keeping the API v5 behavior (the new API defaults it to true)
+  - Fix opt-in and consent dates generated at exactly midnight UTC (previously "T24:00" of the previous day), ignore "null" and "undefined" string values in auto-mapped event properties, and guard the parsing of API responses
+  - Update field descriptions (Create Contact duplicate handling, State as an ISO 3166-2 code, Tags) and add unit tests
 
 2026-05-25 Change Notes:
  - Logging removal.
